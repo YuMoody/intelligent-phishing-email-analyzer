@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Intelligent Phishing Email Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace">
+        <div class="panel input-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">Team 4 SOC Prototype</p>
+            <h1>Phishing Email Analyzer</h1>
+          </div>
+
+          {% if error %}
+            <div class="alert">{{ error }}</div>
+          {% endif %}
+
+          <form action="/analyze" method="post" enctype="multipart/form-data">
+            <label for="eml_file">Upload .eml file</label>
+            <input id="eml_file" name="eml_file" type="file" accept=".eml,message/rfc822">
+
+            <label for="pasted_email">Or paste raw email content</label>
+            <textarea id="pasted_email" name="pasted_email" rows="16" placeholder="Paste headers and body here..."></textarea>
+
+            <button type="submit">Analyze Email</button>
+          </form>
+        </div>
+
+        <div class="panel result-panel">
+          {% if result %}
+            <div class="score-row">
+              <div>
+                <p class="eyebrow">Analysis mode</p>
+                <h2>{{ result.analysis_mode }}</h2>
+              </div>
+              <div class="score {{ result.severity | lower }}">
+                <span>{{ result.score }}</span>
+                <small>/100</small>
+              </div>
+            </div>
+
+            <p class="summary">{{ result.summary }}</p>
+
+            <section>
+              <h3>Indicators of Compromise</h3>
+              {% if result.indicators %}
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>Value</th>
+                      <th>Reason</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for indicator in result.indicators %}
+                      <tr>
+                        <td>{{ indicator.type }}</td>
+                        <td>{{ indicator.value }}</td>
+                        <td>{{ indicator.reason }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <p class="muted">No prototype indicators were found.</p>
+              {% endif %}
+            </section>
+
+            {% if result.llm_report %}
+              <section>
+                <h3>OpenAI Analyst Report</h3>
+                <dl class="report-grid">
+                  <dt>Verdict</dt>
+                  <dd>{{ result.llm_report.verdict }}</dd>
+                  <dt>Confidence</dt>
+                  <dd>{{ result.llm_report.confidence }}</dd>
+                </dl>
+
+                <h4>Explanation</h4>
+                <ul>
+                  {% for item in result.llm_report.analyst_explanation %}
+                    <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+
+                <h4>Recommended Actions</h4>
+                <ul>
+                  {% for item in result.llm_report.recommended_actions %}
+                    <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+
+                {% if result.llm_report.error %}
+                  <p class="alert">{{ result.llm_report.error }}</p>
+                {% endif %}
+              </section>
+            {% endif %}
+
+            <section>
+              <h3>Extracted Artifacts</h3>
+              <dl class="report-grid">
+                <dt>Subject</dt>
+                <dd>{{ result.parsed_email.subject or "N/A" }}</dd>
+                <dt>From</dt>
+                <dd>{{ result.parsed_email.from_header or "N/A" }}</dd>
+                <dt>Reply-To</dt>
+                <dd>{{ result.parsed_email.reply_to or "N/A" }}</dd>
+                <dt>URLs</dt>
+                <dd>{{ result.parsed_email.urls | join(", ") if result.parsed_email.urls else "None" }}</dd>
+                <dt>Attachments</dt>
+                <dd>{{ result.parsed_email.attachment_names | join(", ") if result.parsed_email.attachment_names else "None" }}</dd>
+              </dl>
+            </section>
+          {% else %}
+            <div class="empty-state">
+              <h2>Ready for analysis</h2>
+              <p>Upload a sample `.eml` file or paste raw email content to generate a phishing probability score, IoCs, and an analyst explanation.</p>
+            </div>
+          {% endif %}
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

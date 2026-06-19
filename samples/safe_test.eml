@@ -1,0 +1,13 @@
+From: "CSC482 Instructor" <instructor@example.edu>
+To: team4@example.edu
+Subject: Capstone meeting reminder
+Date: Fri, 12 Jun 2026 10:00:00 -0400
+Authentication-Results: mx.example.edu; spf=pass smtp.mailfrom=example.edu; dkim=pass; dmarc=pass
+Content-Type: text/plain; charset="utf-8"
+
+Hello Team 4,
+
+This is a reminder that our next capstone check-in is scheduled for Monday.
+Please bring your updated project timeline and any questions about the prototype.
+
+Thanks.

@@ -1,0 +1,23 @@
+From: "IT Security Desk" <security-alert@micros0ft-support.example>
+Reply-To: verify-account@external-mail.example
+To: employee@example.com
+Subject: Urgent: Account suspended, verify password now
+Date: Fri, 12 Jun 2026 08:30:00 -0400
+Authentication-Results: mx.example.com; spf=fail smtp.mailfrom=micros0ft-support.example; dkim=fail; dmarc=fail
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="demo-boundary"
+
+--demo-boundary
+Content-Type: text/plain; charset="utf-8"
+
+Your account has been suspended because of suspicious activity.
+Action required: login immediately and verify your password at https://bit.ly/example-reset
+
+Failure to confirm your credential will result in mailbox removal.
+
+--demo-boundary
+Content-Type: application/zip
+Content-Disposition: attachment; filename="Security_Update.zip"
+
+UEsDBAoAAAAAA
+--demo-boundary--
