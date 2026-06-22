@@ -188,6 +188,219 @@ Use the team member's own name in the branch, such as
 | Week 7 | 7/13-7/17 | Deployment outline started. | Add Windows Server and Ubuntu service instructions, logging, upload limits, and authentication plan. |
 | Week 8 | 7/20-7/28 | Final project structure and demo materials in progress. | Freeze final code, rehearse final demo, prepare presentation, document limitations and ethics. |
 
+## Weekly Individual Subtask Tracker
+
+Use this tracker during weekly check-ins. Mark items complete by changing
+`[ ]` to `[x]` and adding notes in commits, pull requests, or
+`TODO_MILESTONES.md`.
+
+### Week 1: Jun 1-Jun 5
+
+Yuuki:
+
+- [ ] Confirm Team 4 member names, contact methods, and preferred meeting times.
+- [ ] Lead the topic-selection discussion and record why the phishing analyzer was chosen.
+- [ ] Create the first shared notes area for meeting notes, decisions, and blockers.
+- [ ] Schedule the Week 2 planning check-in.
+
+Joseph:
+
+- [ ] Complete required lab setup and confirm development tools are available.
+- [ ] Research Python email parsing and `eml-parser` options for `.eml` handling.
+- [ ] List backend dependencies needed for parsing, API routes, and tests.
+- [ ] Share setup notes or blockers with Yuuki before the Week 2 plan is finalized.
+
+Bivaina:
+
+- [ ] Complete required lab setup and confirm frontend tools are available.
+- [ ] Find examples of upload forms, pasted-text inputs, and report layouts.
+- [ ] Sketch the first screen flow: upload/paste input, submit, loading, and report.
+- [ ] Share UI notes or blockers with Yuuki before the Week 2 plan is finalized.
+
+### Week 2: Jun 8-Jun 12
+
+Yuuki:
+
+- [ ] Finalize the project plan, timeline, weekly milestones, and success criteria.
+- [ ] Assign ownership for backend, frontend, AI integration, testing, and documentation.
+- [ ] Set up or organize the repository, shared folders, and task-tracking file.
+- [ ] Confirm the minimum viable demo workflow for the final presentation.
+
+Joseph:
+
+- [ ] Select the backend framework and email parsing approach.
+- [ ] Draft endpoint names and request/response formats for `.eml` upload and pasted input.
+- [ ] Define parser output fields: sender, subject, headers, body, links, and attachments.
+- [ ] Document backend setup steps for the team.
+
+Bivaina:
+
+- [ ] Select the frontend structure and main page layout.
+- [ ] Create a wireframe for upload, pasted input, parsed preview, and final report sections.
+- [ ] Define the UI fields needed from parser and LLM responses.
+- [ ] Document frontend setup steps for the team.
+
+### Week 3: Jun 15-Jun 19
+
+Yuuki:
+
+- [ ] Run a progress check on the first prototype and record blockers.
+- [ ] Review the workflow from email input to backend submission.
+- [ ] Confirm which sample emails will be used for early testing.
+- [ ] Update the weekly task tracker based on prototype progress.
+
+Joseph:
+
+- [ ] Build the first backend endpoint for email submission.
+- [ ] Implement first-pass `.eml` parsing for sender, subject, body, and headers.
+- [ ] Return parser output in a structured format for frontend display.
+- [ ] Test the parser with at least two safe sample emails.
+
+Bivaina:
+
+- [ ] Build the first `.eml` upload control.
+- [ ] Add the pasted raw email content input.
+- [ ] Connect the frontend form submission to the backend endpoint.
+- [ ] Display a basic success, error, or placeholder result state.
+
+### Week 4: Jun 22-Jun 26
+
+Yuuki:
+
+- [ ] Review parser output against the project scope and required report fields.
+- [ ] Confirm the sample test set includes legitimate and suspicious emails.
+- [ ] Check that invalid input handling is assigned and tracked.
+- [ ] Update documentation with any scope or schedule changes.
+
+Joseph:
+
+- [ ] Extract URLs, attachment names, Reply-To, Return-Path, and key header fields.
+- [ ] Normalize parser output for LLM analysis and UI display.
+- [ ] Add error handling for invalid files, missing headers, and empty pasted content.
+- [ ] Create parser test cases for normal, malformed, benign, and suspicious examples.
+
+Bivaina:
+
+- [ ] Display a parsed email preview before the final analysis report.
+- [ ] Add visible feedback for invalid file type, empty input, and processing states.
+- [ ] Adjust layout so long headers, URLs, and attachment names wrap cleanly.
+- [ ] Collect team feedback on the input and preview experience.
+
+### Week 5: Jun 29-Jul 3
+
+Yuuki:
+
+- [ ] Lead review of the LLM prompt, scoring expectations, and explanation quality.
+- [ ] Confirm the report fields match the project objectives and success criteria.
+- [ ] Start drafting documentation sections for approach, limitations, and workflow.
+- [ ] Track API access, cost, or fallback risks.
+
+Joseph:
+
+- [ ] Integrate the selected LLM API or a mock-analysis fallback.
+- [ ] Send structured parser output into the analysis prompt.
+- [ ] Validate required response fields: score, risk level, IoCs, explanation, and recommendation.
+- [ ] Add prompt-injection safeguards so email content is treated only as evidence.
+
+Bivaina:
+
+- [ ] Create report UI sections for score, risk level, summary, IoCs, and recommendations.
+- [ ] Add loading, error, and no-result states for the analysis request.
+- [ ] Render sample LLM responses and verify that long explanations remain readable.
+- [ ] Review the report layout with Yuuki and Joseph.
+
+### Week 6: Jul 6-Jul 10
+
+Yuuki:
+
+- [ ] Lead an end-to-end review from email input to generated report.
+- [ ] Assign missing documentation sections and due dates.
+- [ ] Approve the final demo path and report layout.
+- [ ] Record remaining bugs and prioritize must-fix items.
+
+Joseph:
+
+- [ ] Refine backend response formatting and API error handling.
+- [ ] Improve prompt consistency with examples and required JSON fields.
+- [ ] Support frontend needs for risk labels, IoCs, URLs, and recommendations.
+- [ ] Verify the backend can run reliably for demo examples.
+
+Bivaina:
+
+- [ ] Polish the report interface and responsive layout.
+- [ ] Group summary, IoCs, URLs, headers, attachments, and recommendations clearly.
+- [ ] Improve validation messages and form usability.
+- [ ] Test the full workflow in the browser with sample emails.
+
+### Week 7: Jul 13-Jul 17
+
+Yuuki:
+
+- [ ] Lead testing review and decide which bugs must be fixed before final demo.
+- [ ] Assign final presentation sections and demo speaking roles.
+- [ ] Compile limitations, ethics, privacy, and future improvement notes.
+- [ ] Check that documentation and slides are moving toward final form.
+
+Joseph:
+
+- [ ] Run backend and parser tests with legitimate and phishing examples.
+- [ ] Fix backend bugs found during testing.
+- [ ] Document backend setup, API usage, fallback behavior, and known limitations.
+- [ ] Prepare technical talking points for the presentation.
+
+Bivaina:
+
+- [ ] Test UI behavior across common screen sizes.
+- [ ] Fix report display, wrapping, validation, and usability issues found during testing.
+- [ ] Capture screenshots for slides, backup demo, and documentation.
+- [ ] Prepare UI/report-design talking points for the presentation.
+
+### Week 8: Jul 20-Jul 26
+
+Yuuki:
+
+- [ ] Finalize the submission checklist and confirm all required deliverables.
+- [ ] Lead demo rehearsal and timing practice.
+- [ ] Prepare the backup demo plan in case live services are unavailable.
+- [ ] Review the final project narrative for consistency across docs and slides.
+
+Joseph:
+
+- [ ] Freeze backend features and verify the demo dataset works.
+- [ ] Prepare mock or fallback analysis output if API access fails.
+- [ ] Review final technical documentation for accuracy.
+- [ ] Confirm the backend can be started cleanly for the final demo.
+
+Bivaina:
+
+- [ ] Freeze frontend features and complete final UI polish.
+- [ ] Capture backup screenshots of the complete workflow.
+- [ ] Review final slides for visual consistency and report screenshots.
+- [ ] Confirm the UI can be opened and demonstrated without layout issues.
+
+### Final Presentation: Jul 27-Jul 28
+
+Yuuki:
+
+- [ ] Introduce the project, problem, scope, and team roles.
+- [ ] Guide the live or recorded demo flow.
+- [ ] Explain schedule decisions, deliverables, limitations, and future work.
+- [ ] Answer project-management and scope questions.
+
+Joseph:
+
+- [ ] Explain backend parsing, LLM integration, and technical decisions.
+- [ ] Support the demo if backend, parser, or API issues occur.
+- [ ] Answer implementation, testing, and reliability questions.
+- [ ] Help explain fallback behavior if the live API cannot be used.
+
+Bivaina:
+
+- [ ] Explain the user interface and report design.
+- [ ] Show how analysts review score, IoCs, explanations, and recommendations.
+- [ ] Answer usability, accessibility, and frontend questions.
+- [ ] Support the demo if the report display or screenshots are needed.
+
 ## Team Member Tasks
 
 ### Yuuki
