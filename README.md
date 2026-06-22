@@ -198,8 +198,8 @@ Use this tracker during weekly check-ins. Mark items complete by changing
 
 Yuuki:
 
-- [ ] Confirm Team 4 member names, contact methods, and preferred meeting times.
-- [ ] Lead the topic-selection discussion and record why the phishing analyzer was chosen.
+- [x] Confirm Team 4 member names, contact methods, and preferred meeting times.
+- [x] Lead the topic-selection discussion and record why the phishing analyzer was chosen.
 - [ ] Create the first shared notes area for meeting notes, decisions, and blockers.
 - [ ] Schedule the Week 2 planning check-in.
 
@@ -221,9 +221,9 @@ Bivaina:
 
 Yuuki:
 
-- [ ] Finalize the project plan, timeline, weekly milestones, and success criteria.
+- [x] Finalize the project plan, timeline, weekly milestones, and success criteria.
 - [ ] Assign ownership for backend, frontend, AI integration, testing, and documentation.
-- [ ] Set up or organize the repository, shared folders, and task-tracking file.
+- [x] Set up or organize the repository, shared folders, and task-tracking file.
 - [ ] Confirm the minimum viable demo workflow for the final presentation.
 
 Joseph:
