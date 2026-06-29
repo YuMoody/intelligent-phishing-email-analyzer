@@ -200,8 +200,8 @@ Yuuki:
 
 - [x] Confirm Team 4 member names, contact methods, and preferred meeting times.
 - [x] Lead the topic-selection discussion and record why the phishing analyzer was chosen.
-- [ ] Create the first shared notes area for meeting notes, decisions, and blockers.
-- [ ] Schedule the Week 2 planning check-in.
+- [x] Create the first shared notes area for meeting notes, decisions, and blockers.
+- [x] Schedule the Week 2 planning check-in.
 
 Joseph:
 
@@ -267,8 +267,8 @@ Bivaina:
 
 Yuuki:
 
-- [ ] Review parser output against the project scope and required report fields.
-- [ ] Confirm the sample test set includes legitimate and suspicious emails.
+- [x] Review parser output against the project scope and required report fields.
+- [x] Confirm the sample test set includes legitimate and suspicious emails.
 - [ ] Check that invalid input handling is assigned and tracked.
 - [ ] Update documentation with any scope or schedule changes.
 

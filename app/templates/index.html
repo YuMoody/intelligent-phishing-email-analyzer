@@ -5,37 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Intelligent Phishing Email Analyzer</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+    <script src="{{ url_for('static', path='/app.js') }}" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#email-input">Skip to email input</a>
     <main class="shell">
+      <header class="app-header">
+        <div class="brand-block">
+          <div class="brand-mark" aria-hidden="true">IA</div>
+          <div>
+            <p class="eyebrow">SOC Email Defense</p>
+            <h1>Intelligent Phishing Email Analyzer</h1>
+            <p class="lead">Assess suspicious messages, surface indicators of compromise, and generate analyst-ready guidance.</p>
+          </div>
+        </div>
+        <div class="status-card" aria-label="System capabilities">
+          <span>EML Upload</span>
+          <span>Header Parsing</span>
+          <span>IoC Extraction</span>
+          <span>AI Report</span>
+        </div>
+      </header>
+
       <section class="workspace">
         <div class="panel input-panel">
           <div class="panel-heading">
-            <p class="eyebrow">Team 4 SOC Prototype</p>
-            <h1>Phishing Email Analyzer</h1>
+            <p class="panel-kicker">Submission</p>
+            <h2 id="email-input">Analyze a suspicious email</h2>
+            <p class="section-help">Upload an exported message or paste the raw source. Uploaded files take priority when both inputs are provided.</p>
           </div>
 
           {% if error %}
-            <div class="alert">{{ error }}</div>
+            <div class="alert" role="alert">{{ error }}</div>
           {% endif %}
 
-          <form action="/analyze" method="post" enctype="multipart/form-data">
-            <label for="eml_file">Upload .eml file</label>
-            <input id="eml_file" name="eml_file" type="file" accept=".eml,message/rfc822">
+          <div id="form-feedback" class="form-feedback" role="alert" aria-live="assertive" hidden></div>
 
-            <label for="pasted_email">Or paste raw email content</label>
-            <textarea id="pasted_email" name="pasted_email" rows="16" placeholder="Paste headers and body here..."></textarea>
+          <form id="analysis-form" action="/analyze" method="post" enctype="multipart/form-data" novalidate>
+            <div class="input-group">
+              <div>
+                <div class="field-title">
+                  <span class="step-badge">1</span>
+                  <label for="eml_file">Upload .eml file</label>
+                </div>
+                <p id="file-help" class="field-help">Best for exported suspicious emails from Outlook, Gmail, or a ticket queue.</p>
+              </div>
+              <input id="eml_file" name="eml_file" type="file" accept=".eml,message/rfc822" aria-describedby="file-help">
+            </div>
 
-            <button type="submit">Analyze Email</button>
+            <div class="divider" aria-hidden="true"><span>or</span></div>
+
+            <div class="input-group">
+              <div>
+                <div class="field-title">
+                  <span class="step-badge">2</span>
+                  <label for="pasted_email">Paste raw email content</label>
+                </div>
+                <p id="paste-help" class="field-help">Include headers when possible. Headers help identify spoofing, reply-to mismatches, and routing clues.</p>
+              </div>
+              <textarea id="pasted_email" name="pasted_email" rows="16" placeholder="Example: From, Reply-To, Subject, received headers, then the message body..." aria-describedby="paste-help"></textarea>
+            </div>
+
+            <button id="analyze-button" type="submit">
+              <span class="button-label">Analyze Email</span>
+              <span class="button-spinner" aria-hidden="true"></span>
+            </button>
           </form>
         </div>
 
-        <div class="panel result-panel">
+        <div class="panel result-panel" aria-live="polite">
           {% if result %}
+            <div class="panel-heading compact">
+              <p class="panel-kicker">Assessment</p>
+              <h2>Analysis report</h2>
+            </div>
+
             <div class="score-row">
               <div>
-                <p class="eyebrow">Analysis mode</p>
-                <h2>{{ result.analysis_mode }}</h2>
+                <p class="eyebrow">Risk assessment</p>
+                <h3 class="score-title">{{ result.severity }} Risk</h3>
+                <p class="muted">{{ result.analysis_mode }}</p>
               </div>
               <div class="score {{ result.severity | lower }}">
                 <span>{{ result.score }}</span>
@@ -45,29 +94,90 @@
 
             <p class="summary">{{ result.summary }}</p>
 
+            <section class="parsed-preview" aria-labelledby="parsed-preview-heading">
+              <div class="section-title-row">
+                <div>
+                  <h3 id="parsed-preview-heading">Parsed Email Preview</h3>
+                  <p class="section-help">Review what the system extracted before reading the final analysis.</p>
+                </div>
+                <span class="preview-count">{{ result.parsed_email.urls | length }} URL{{ "" if result.parsed_email.urls | length == 1 else "s" }}</span>
+              </div>
+
+              <dl class="preview-grid">
+                <dt>Subject</dt>
+                <dd>{{ result.parsed_email.subject or "N/A" }}</dd>
+                <dt>From</dt>
+                <dd>{{ result.parsed_email.from_header or "N/A" }}</dd>
+                <dt>To</dt>
+                <dd>{{ result.parsed_email.to_header or "N/A" }}</dd>
+                <dt>Reply-To</dt>
+                <dd>{{ result.parsed_email.reply_to or "N/A" }}</dd>
+                <dt>Date</dt>
+                <dd>{{ result.parsed_email.date or "N/A" }}</dd>
+              </dl>
+
+              <div class="preview-lists">
+                <div>
+                  <h4>URLs Found</h4>
+                  {% if result.parsed_email.urls %}
+                    <ul class="compact-list">
+                      {% for url in result.parsed_email.urls %}
+                        <li>{{ url }}</li>
+                      {% endfor %}
+                    </ul>
+                  {% else %}
+                    <p class="muted">No URLs found.</p>
+                  {% endif %}
+                </div>
+                <div>
+                  <h4>Attachments</h4>
+                  {% if result.parsed_email.attachment_names %}
+                    <ul class="compact-list">
+                      {% for attachment in result.parsed_email.attachment_names %}
+                        <li>{{ attachment }}</li>
+                      {% endfor %}
+                    </ul>
+                  {% else %}
+                    <p class="muted">No attachments found.</p>
+                  {% endif %}
+                </div>
+              </div>
+
+              <details class="body-preview">
+                <summary>Message body preview</summary>
+                {% if result.parsed_email.body_text %}
+                  <pre>{{ result.parsed_email.body_text | truncate(1400, True, "...") }}</pre>
+                {% else %}
+                  <p class="muted">No message body was extracted.</p>
+                {% endif %}
+              </details>
+            </section>
+
             <section>
               <h3>Indicators of Compromise</h3>
               {% if result.indicators %}
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Type</th>
-                      <th>Value</th>
-                      <th>Reason</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for indicator in result.indicators %}
+                <div class="table-wrap">
+                  <table>
+                    <thead>
                       <tr>
-                        <td>{{ indicator.type }}</td>
-                        <td>{{ indicator.value }}</td>
-                        <td>{{ indicator.reason }}</td>
+                        <th scope="col">Type</th>
+                        <th scope="col">Value</th>
+                        <th scope="col">Reason</th>
                       </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {% for indicator in result.indicators %}
+                        <tr>
+                          <td data-label="Type">{{ indicator.type }}</td>
+                          <td data-label="Value">{{ indicator.value }}</td>
+                          <td data-label="Reason">{{ indicator.reason }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
               {% else %}
-                <p class="muted">No prototype indicators were found.</p>
+                <p class="muted">No indicators were found by the current detection rules.</p>
               {% endif %}
             </section>
 
@@ -96,7 +206,7 @@
                 </ul>
 
                 {% if result.llm_report.error %}
-                  <p class="alert">{{ result.llm_report.error }}</p>
+                  <p class="alert" role="alert">{{ result.llm_report.error }}</p>
                 {% endif %}
               </section>
             {% endif %}
@@ -118,8 +228,15 @@
             </section>
           {% else %}
             <div class="empty-state">
-              <h2>Ready for analysis</h2>
-              <p>Upload a sample `.eml` file or paste raw email content to generate a phishing probability score, IoCs, and an analyst explanation.</p>
+              <p class="panel-kicker">Report Workspace</p>
+              <h2>Awaiting email sample</h2>
+              <p>Submit a suspicious message to generate a parsed preview, phishing risk score, indicators of compromise, and recommended next steps.</p>
+              <div class="empty-checklist" aria-label="What the report includes">
+                <span>Risk score</span>
+                <span>IoCs</span>
+                <span>Explanation</span>
+                <span>Actions</span>
+              </div>
             </div>
           {% endif %}
         </div>

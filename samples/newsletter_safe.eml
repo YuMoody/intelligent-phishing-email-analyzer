@@ -1,0 +1,14 @@
+From: "Campus Library" <library@example.edu>
+To: students@example.edu
+Subject: Library workshop schedule
+Date: Wed, 17 Jun 2026 13:00:00 -0400
+Authentication-Results: mx.example.edu; spf=pass smtp.mailfrom=example.edu; dkim=pass; dmarc=pass
+Content-Type: text/plain; charset="utf-8"
+
+Hello,
+
+The library is hosting citation and database research workshops next week.
+Registration is available at https://library.example.edu/workshops
+
+Thank you,
+Campus Library

@@ -1,0 +1,26 @@
+From: "Accounts Payable" <ap@vendor-billing.example>
+Reply-To: billing-help@external-mail.example
+To: finance@example.com
+Subject: Invoice payment confirmation requested
+Date: Mon, 15 Jun 2026 09:15:00 -0400
+Authentication-Results: mx.example.com; spf=pass smtp.mailfrom=vendor-billing.example; dkim=pass; dmarc=pass
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="invoice-boundary"
+
+--invoice-boundary
+Content-Type: text/plain; charset="utf-8"
+
+Hello,
+
+Please review the attached invoice and confirm payment details before close of business.
+The account number on file may need to be updated.
+
+Regards,
+Accounts Payable
+
+--invoice-boundary
+Content-Type: text/html
+Content-Disposition: attachment; filename="invoice_details.html"
+
+<html><body>Invoice details</body></html>
+--invoice-boundary--

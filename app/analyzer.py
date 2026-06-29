@@ -206,16 +206,19 @@ async def build_openai_report(
         )
         text = response.output_text.strip()
         return json.loads(text)
-    except Exception as exc:
+    except Exception:
         return {
             "verdict": "unavailable",
             "confidence": "low",
             "analyst_explanation": [
                 "OpenAI analysis could not be completed, so the heuristic report should be used."
             ],
-            "recommended_actions": ["Check API key, model name, network access, and account billing."],
+            "recommended_actions": [
+                f"Verify that the OpenAI project has access to the configured model: {settings.openai_model}.",
+                "Check the API key, network access, and account billing before rerunning the analysis.",
+            ],
             "iocs": [],
-            "error": str(exc),
+            "error": "OpenAI analysis is unavailable because the configured API request failed.",
         }
 
 
@@ -232,4 +235,4 @@ def _summary(severity: str, score: int) -> str:
         return f"High phishing risk ({score}/100). Escalate for analyst review before interacting."
     if severity == "Medium":
         return f"Medium phishing risk ({score}/100). Review the listed indicators carefully."
-    return f"Low phishing risk ({score}/100). No major prototype indicators were found."
+    return f"Low phishing risk ({score}/100). No major phishing indicators were found."
