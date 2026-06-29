@@ -205,8 +205,8 @@ Yuuki:
 
 Joseph:
 
-- [ ] Complete required lab setup and confirm development tools are available.
-- [ ] Research Python email parsing and `eml-parser` options for `.eml` handling.
+- [x] Complete required lab setup and confirm development tools are available.
+- [x] Research Python email parsing and `eml-parser` options for `.eml` handling.
 - [ ] List backend dependencies needed for parsing, API routes, and tests.
 - [ ] Share setup notes or blockers with Yuuki before the Week 2 plan is finalized.
 
