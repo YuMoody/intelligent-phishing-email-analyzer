@@ -229,9 +229,9 @@ Yuuki:
 Joseph:
 
 - [x] Select the backend framework and email parsing approach.
-- [ ] Draft endpoint names and request/response formats for `.eml` upload and pasted input.
-- [ ] Define parser output fields: sender, subject, headers, body, links, and attachments.
-- [ ] Document backend setup steps for the team.
+- [x] Draft endpoint names and request/response formats for `.eml` upload and pasted input.
+- [x] Define parser output fields: sender, subject, headers, body, links, and attachments.
+- [x] Document backend setup steps for the team.
 
 Bivaina:
 
