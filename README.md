@@ -222,7 +222,7 @@ Bivaina:
 Yuuki:
 
 - [x] Finalize the project plan, timeline, weekly milestones, and success criteria.
-- [ ] Assign ownership for backend, frontend, AI integration, testing, and documentation.
+- [x] Assign ownership for backend, frontend, AI integration, testing, and documentation.
 - [x] Set up or organize the repository, shared folders, and task-tracking file.
 - [ ] Confirm the minimum viable demo workflow for the final presentation.
 
@@ -244,9 +244,9 @@ Bivaina:
 
 Yuuki:
 
-- [ ] Run a progress check on the first prototype and record blockers.
+- [x] Run a progress check on the first prototype and record blockers.
 - [ ] Review the workflow from email input to backend submission.
-- [ ] Confirm which sample emails will be used for early testing.
+- [x] Confirm which sample emails will be used for early testing.
 - [ ] Update the weekly task tracker based on prototype progress.
 
 Joseph:
