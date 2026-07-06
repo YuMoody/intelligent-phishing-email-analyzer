@@ -251,10 +251,10 @@ Yuuki:
 
 Joseph:
 
-- [ ] Build the first backend endpoint for email submission.
-- [ ] Implement first-pass `.eml` parsing for sender, subject, body, and headers.
-- [ ] Return parser output in a structured format for frontend display.
-- [ ] Test the parser with at least two safe sample emails.
+- [x] Build the first backend endpoint for email submission.
+- [x] Implement first-pass `.eml` parsing for sender, subject, body, and headers.
+- [x] Return parser output in a structured format for frontend display.
+- [x] Test the parser with at least two safe sample emails.
 
 Bivaina:
 
