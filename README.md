@@ -213,9 +213,9 @@ Joseph:
 Bivaina:
 
 - [x] Complete required lab setup and confirm frontend tools are available.
-- [ ] Find examples of upload forms, pasted-text inputs, and report layouts.
-- [ ] Sketch the first screen flow: upload/paste input, submit, loading, and report.
-- [ ] Share UI notes or blockers with Yuuki before the Week 2 plan is finalized.
+- [x] Find examples of upload forms, pasted-text inputs, and report layouts.
+- [x] Sketch the first screen flow: upload/paste input, submit, loading, and report.
+- [x] Share UI notes or blockers with Yuuki before the Week 2 plan is finalized.
 
 ### Week 2: Jun 8-Jun 12
 
@@ -237,8 +237,8 @@ Bivaina:
 
 - [x] Select the frontend structure and main page layout.
 - [x] Create a wireframe for upload, pasted input, parsed preview, and final report sections.
-- [ ] Define the UI fields needed from parser and LLM responses.
-- [ ] Document frontend setup steps for the team.
+- [x] Define the UI fields needed from parser and LLM responses.
+- [x] Document frontend setup steps for the team.
 
 ### Week 3: Jun 15-Jun 19
 
@@ -260,7 +260,7 @@ Bivaina:
 
 - [x] Build the first `.eml` upload control.
 - [x] Add the pasted raw email content input.
-- [ ] Connect the frontend form submission to the backend endpoint.
+- [x] Connect the frontend form submission to the backend endpoint.
 - [x] Display a basic success, error, or placeholder result state.
 
 ### Week 4: Jun 22-Jun 26
@@ -283,8 +283,8 @@ Bivaina:
 
 - [x] Display a parsed email preview before the final analysis report.
 - [x] Add visible feedback for invalid file type, empty input, and processing states.
-- [ ] Adjust layout so long headers, URLs, and attachment names wrap cleanly.
-- [ ] Collect team feedback on the input and preview experience.
+- [x] Adjust layout so long headers, URLs, and attachment names wrap cleanly.
+- [x] Collect team feedback on the input and preview experience.
 
 ### Week 5: Jun 29-Jul 3
 
@@ -305,7 +305,7 @@ Joseph:
 Bivaina:
 
 - [x] Create report UI sections for score, risk level, summary, IoCs, and recommendations.
-- [ ] Add loading, error, and no-result states for the analysis request.
+- [x] Add loading, error, and no-result states for the analysis request.
 - [ ] Render sample LLM responses and verify that long explanations remain readable.
 - [ ] Review the report layout with Yuuki and Joseph.
 
