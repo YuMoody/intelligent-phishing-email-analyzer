@@ -1,0 +1,25 @@
+6/11 Thursday started 7:15pm (EST) Lasted 20min
+Participant: Yuuki and Joseph 
+Topic: Project Discussion
+Talked about how to tackle the project and some of the other assignment that needed to be completed.
+
+6/19 Friday started 3:19pm (EST) Lasted 2hr 30min
+Participant: Yuuki and Joseph
+Topic: Setting Up WinServer VM & Prototype
+This meeting was to help Joseph set up his winserver VM and to make sure we had all the software required to start on our project. Also in the meeting we had discussed about making sure to setup the prototype so I am able to setup the GitHub repository.
+
+6/28 Sunday started 7:25pm (EST) Lasted 2h 18min
+Participant: Yuuki and Joseph
+Topic: Progress Check, Working on subtasks, and New Meeting Schedule
+This meeting was to have a progress check and to make sure we did our journal. During this meeting we also worked on completing subtasks and to discuss how the backend operation was going. Also, discussed about how we were behind on our tasks and changing our meeting times to make sure we have two meeting between the week to keep us on track.
+
+7/2 Thursday started 10am (EST) Lasted 30min
+Participant: Yuuki and Bivaina
+Topic: Setting up 
+Pretty much talked about accepting the GitHub repository invite and giving the rundown on how to clone the repository in VS Code.
+Problem we ran into: Bivaina had to redo the VM setup.
+
+7/2 Thursday started 9:10pm (EST) Lasted 45min
+Participant: Yuuki and Joseph
+Topic: Progress Check and New Meeting Schedule
+Checking up on group to see how much progress they have made. Making a new meeting schedule for new availability.
