@@ -276,8 +276,8 @@ Joseph:
 
 - [x] Extract URLs, attachment names, Reply-To, Return-Path, and key header fields.
 - [x] Normalize parser output for LLM analysis and UI display.
-- [ ] Add error handling for invalid files, missing headers, and empty pasted content.
-- [ ] Create parser test cases for normal, malformed, benign, and suspicious examples.
+- [x] Add error handling for invalid files, missing headers, and empty pasted content.
+- [x] Create parser test cases for normal, malformed, benign, and suspicious examples.
 
 Bivaina:
 
