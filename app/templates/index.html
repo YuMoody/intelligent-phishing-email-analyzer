@@ -36,7 +36,11 @@
           </div>
 
           {% if error %}
-            <div class="alert" role="alert">{{ error }}</div>
+            <div class="alert alert--error" role="alert">{{ error }}</div>
+          {% endif %}
+
+          {% if success %}
+            <div class="alert alert--success" role="status">{{ success }}</div>
           {% endif %}
 
           <div id="form-feedback" class="form-feedback" role="alert" aria-live="assertive" hidden></div>
@@ -182,13 +186,15 @@
             </section>
 
             {% if result.llm_report %}
-              <section>
-                <h3>OpenAI Analyst Report</h3>
+              <section class="llm-report">
+                <h3>Analyst Report</h3>
                 <dl class="report-grid">
                   <dt>Verdict</dt>
                   <dd>{{ result.llm_report.verdict }}</dd>
                   <dt>Confidence</dt>
                   <dd>{{ result.llm_report.confidence }}</dd>
+                  <dt>Provider</dt>
+                  <dd>{{ result.llm_report.provider }}</dd>
                 </dl>
 
                 <h4>Explanation</h4>
@@ -206,7 +212,7 @@
                 </ul>
 
                 {% if result.llm_report.error %}
-                  <p class="alert" role="alert">{{ result.llm_report.error }}</p>
+                  <p class="alert alert--error" role="alert">{{ result.llm_report.error }}</p>
                 {% endif %}
               </section>
             {% endif %}

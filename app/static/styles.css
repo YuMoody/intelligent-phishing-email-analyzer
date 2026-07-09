@@ -361,11 +361,22 @@ button[aria-busy="true"] .button-spinner {
 }
 
 .alert {
-  border: 1px solid #fecaca;
+  margin-bottom: 14px;
   border-radius: 6px;
+  padding: 10px 12px;
+  font-weight: 700;
+}
+
+.alert--error {
+  border: 1px solid #fecaca;
   background: #fef2f2;
   color: #991b1b;
-  padding: 10px 12px;
+}
+
+.alert--success {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
 }
 
 .score-row {
@@ -564,6 +575,11 @@ ul {
 
 li {
   margin: 6px 0;
+}
+
+.llm-report li,
+.llm-report dd {
+  overflow-wrap: anywhere;
 }
 
 .muted,

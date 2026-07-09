@@ -1,8 +1,10 @@
+import asyncio
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
-from app.analyzer import build_heuristic_report
+from app.analyzer import analyze_email, build_heuristic_report, build_mock_analysis_report
 from app.email_parser import parse_email_content
 
 
@@ -66,3 +68,57 @@ def test_html_phishing_sample_extracts_suspicious_url():
         and indicator["value"] == "https://secure-login-update-company-example.com@evil.example/reset"
         for indicator in report["indicators"]
     )
+
+
+def test_mock_analysis_report_matches_heuristic_severity():
+    raw_email = Path("samples/phishing_test.eml").read_text(encoding="utf-8")
+    parsed = parse_email_content(raw_email)
+    heuristic_report = build_heuristic_report(parsed)
+
+    llm_report = build_mock_analysis_report(parsed, heuristic_report)
+
+    assert llm_report["provider"] == "mock"
+    assert llm_report["verdict"] == "phishing"
+    assert llm_report["recommended_actions"]
+    assert "URL: https://bit.ly/example-reset" in llm_report["iocs"]
+
+
+def test_analyze_email_uses_mock_report_when_no_openai_key(monkeypatch):
+    raw_email = Path("samples/safe_test.eml").read_text(encoding="utf-8")
+    parsed = parse_email_content(raw_email)
+    monkeypatch.setattr(
+        "app.analyzer.settings",
+        SimpleNamespace(llm_provider="auto", openai_api_key="", openai_model="test-model"),
+    )
+
+    report = asyncio.run(analyze_email(parsed))
+
+    assert report["analysis_mode"] == "Heuristics + mock analysis"
+    assert report["llm_report"]["provider"] == "mock"
+    assert report["llm_report"]["verdict"] == "likely_safe"
+
+
+def test_analyze_email_falls_back_to_mock_when_openai_fails(monkeypatch):
+    raw_email = Path("samples/business_invoice_medium.eml").read_text(encoding="utf-8")
+    parsed = parse_email_content(raw_email)
+    monkeypatch.setattr(
+        "app.analyzer.settings",
+        SimpleNamespace(llm_provider="openai", openai_api_key="test-key", openai_model="test-model"),
+    )
+
+    async def failed_openai_report(parsed_email, heuristic_report):
+        return {
+            "provider": "openai",
+            "provider_status": "unavailable",
+            "analysis_mode": "Heuristics + mock analysis",
+            "error": "test provider failure",
+        }
+
+    monkeypatch.setattr("app.analyzer.build_openai_report", failed_openai_report)
+
+    report = asyncio.run(analyze_email(parsed))
+
+    assert report["analysis_mode"] == "Heuristics + mock analysis"
+    assert report["llm_report"]["provider"] == "mock"
+    assert report["llm_report"]["provider_status"] == "fallback"
+    assert report["llm_report"]["error"] == "test provider failure"

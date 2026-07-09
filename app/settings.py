@@ -16,8 +16,9 @@ if load_dotenv:
 class Settings:
     app_host: str = os.getenv("APP_HOST", "0.0.0.0")
     app_port: int = int(os.getenv("APP_PORT", "8000"))
+    llm_provider: str = os.getenv("LLM_PROVIDER", "auto").lower()
     openai_api_key: str = os.getenv("OPENAI_API_KEY", "")
-    openai_model: str = os.getenv("OPENAI_MODEL", "gpt-5.4-nano-2026-03-17")
+    openai_model: str = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
     max_upload_bytes: int = int(os.getenv("MAX_UPLOAD_BYTES", str(2 * 1024 * 1024)))
 
 

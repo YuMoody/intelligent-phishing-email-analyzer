@@ -33,6 +33,7 @@ async def index(request: Request):
             "request": request,
             "result": None,
             "error": None,
+            "success": None,
         },
     )
 
@@ -54,6 +55,7 @@ async def analyze(
                     "request": request,
                     "result": None,
                     "error": "Invalid file type. Upload a .eml email file or paste raw email content.",
+                    "success": None,
                 },
                 status_code=400,
             )
@@ -67,10 +69,23 @@ async def analyze(
                     "request": request,
                     "result": None,
                     "error": "Uploaded file is too large for the configured upload limit.",
+                    "success": None,
                 },
                 status_code=413,
             )
         raw_email = uploaded_bytes.decode("utf-8", errors="replace")
+        if not raw_email.strip():
+            return templates.TemplateResponse(
+                name="index.html",
+                request=request,
+                context={
+                    "request": request,
+                    "result": None,
+                    "error": "Paste email content or upload a .eml file before analyzing.",
+                    "success": None,
+                },
+                status_code=400,
+            )
 
     if not raw_email:
         return templates.TemplateResponse(
@@ -80,6 +95,7 @@ async def analyze(
                 "request": request,
                 "result": None,
                 "error": "Paste email content or upload a .eml file before analyzing.",
+                "success": None,
             },
             status_code=400,
         )
@@ -94,6 +110,7 @@ async def analyze(
             "request": request,
             "result": result,
             "error": None,
+            "success": "Analysis completed successfully. Review the report and recommended actions below.",
         },
     )
 
@@ -102,6 +119,7 @@ async def analyze(
 async def health():
     return {
         "status": "ok",
+        "llm_provider": settings.llm_provider,
         "openai_configured": bool(settings.openai_api_key),
         "openai_model": settings.openai_model,
     }

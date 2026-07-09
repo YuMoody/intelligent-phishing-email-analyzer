@@ -1,0 +1,18 @@
+{
+  "verdict": "suspicious",
+  "confidence": "medium",
+  "analyst_explanation": [
+    "The message combines urgency, invoice language, and a Reply-To address that does not match the visible sender. A junior analyst should treat this as suspicious because the email is attempting to move the conversation away from the original sender identity while asking the recipient to review payment-related material.",
+    "The attachment name looks business-related, but the file extension is HTML. HTML attachments are often used to present fake login pages or redirect users to credential collection forms, so the attachment should not be opened on a normal workstation.",
+    "This deliberately long sample explanation verifies that extended LLM analyst text remains readable in the report area even when the response contains several detailed sentences, long indicator descriptions, and operational guidance intended for a SOC handoff."
+  ],
+  "recommended_actions": [
+    "Do not open the attachment or click any links until the message is reviewed in a sandbox.",
+    "Contact the claimed sender through a known trusted channel before acting on the invoice request.",
+    "Preserve the original email with full headers for escalation and add the suspicious Reply-To address to the investigation notes."
+  ],
+  "iocs": [
+    "billing-help@external-mail.example",
+    "invoice_details.html"
+  ]
+}

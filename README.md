@@ -29,7 +29,8 @@ but to speed up triage and make phishing indicators easier to understand.
 - Accepts `.eml` file uploads.
 - Extracts basic email artifacts for analysis.
 - Produces a phishing risk score using transparent heuristics.
-- Optionally calls an LLM API for a natural-language SOC analyst report.
+- Optionally calls an LLM API for a natural-language SOC analyst report, with a
+  deterministic mock-analysis fallback when API access is unavailable.
 - Includes sample safe and phishing emails for testing.
 - Includes unit tests for parser, analyzer, and web routes.
 
@@ -71,8 +72,10 @@ Open the app at:
 http://localhost:8000
 ```
 
-If `OPENAI_API_KEY` is not set in `.env`, the prototype still runs with
-heuristic-only analysis.
+If `OPENAI_API_KEY` is not set in `.env`, the prototype still runs with a
+deterministic mock analyst report. Set `LLM_PROVIDER=mock` to force demo-safe
+fallback mode, or use `LLM_PROVIDER=auto` to call OpenAI only when a key is
+configured.
 
 ## GitHub Repository Setup Guide
 
@@ -297,10 +300,10 @@ Yuuki:
 
 Joseph:
 
-- [ ] Integrate the selected LLM API or a mock-analysis fallback.
-- [ ] Send structured parser output into the analysis prompt.
-- [ ] Validate required response fields: score, risk level, IoCs, explanation, and recommendation.
-- [ ] Add prompt-injection safeguards so email content is treated only as evidence.
+- [x] Integrate the selected LLM API or a mock-analysis fallback.
+- [x] Send structured parser output into the analysis prompt.
+- [x] Validate required response fields: score, risk level, IoCs, explanation, and recommendation.
+- [x] Add prompt-injection safeguards so email content is treated only as evidence.
 
 Bivaina:
 
@@ -478,6 +481,9 @@ Sample emails:
 
 - `samples/phishing_test.eml`
 - `samples/safe_test.eml`
+- `samples/business_invoice_medium.eml`
+- `samples/empty_error_sample.eml` - intentional blank email sample for showing the error message.
+- `samples/llm_long_response_sample.json` - sample LLM report fixture for checking long explanation readability.
 
 ## Security and Privacy Notes
 
