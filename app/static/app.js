@@ -4,6 +4,7 @@ const pastedEmail = document.querySelector("#pasted_email");
 const feedback = document.querySelector("#form-feedback");
 const submitButton = document.querySelector("#analyze-button");
 const submitLabel = submitButton?.querySelector(".button-label");
+const demoSampleButtons = document.querySelectorAll(".demo-sample-button");
 
 function showFeedback(message) {
   if (!feedback) return;
@@ -28,6 +29,13 @@ function setProcessingState(isProcessing) {
   submitButton.disabled = isProcessing;
   submitButton.setAttribute("aria-busy", String(isProcessing));
   submitLabel.textContent = isProcessing ? "Analyzing..." : "Analyze Email";
+}
+
+function setDemoButtonState(activeButton, isLoading) {
+  demoSampleButtons.forEach((button) => {
+    button.disabled = isLoading;
+    button.setAttribute("aria-busy", String(isLoading && button === activeButton));
+  });
 }
 
 fileInput?.addEventListener("change", () => {
@@ -70,4 +78,34 @@ form?.addEventListener("submit", (event) => {
 
   clearFeedback();
   setProcessingState(true);
+});
+
+demoSampleButtons.forEach((button) => {
+  button.addEventListener("click", async () => {
+    const sampleId = button.dataset.sampleId;
+    if (!sampleId || !pastedEmail) return;
+
+    setDemoButtonState(button, true);
+    clearFeedback();
+
+    try {
+      const response = await fetch(`/demo-samples/${sampleId}`);
+      if (!response.ok) {
+        throw new Error("Sample could not be loaded.");
+      }
+
+      pastedEmail.value = await response.text();
+      pastedEmail.removeAttribute("aria-invalid");
+      if (fileInput) {
+        fileInput.value = "";
+        fileInput.removeAttribute("aria-invalid");
+      }
+      pastedEmail.focus();
+      showFeedback("Demo sample loaded. Click Analyze Email to generate the report.");
+    } catch {
+      showFeedback("Unable to load that demo sample. Please try another scenario.");
+    } finally {
+      setDemoButtonState(button, false);
+    }
+  });
 });

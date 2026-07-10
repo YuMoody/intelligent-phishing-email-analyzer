@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Intelligent Phishing Email Analyzer</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
-    <script src="{{ url_for('static', path='/app.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}?v=report-groups-1">
+    <script src="{{ url_for('static', path='/app.js') }}?v=report-groups-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#email-input">Skip to email input</a>
@@ -44,6 +44,22 @@
           {% endif %}
 
           <div id="form-feedback" class="form-feedback" role="alert" aria-live="assertive" hidden></div>
+
+          <section class="demo-scenarios" aria-labelledby="demo-scenarios-heading">
+            <div>
+              <p class="panel-kicker">Demo Scenarios</p>
+              <h3 id="demo-scenarios-heading">Choose a prepared SOC case</h3>
+              <p class="section-help">Use these examples during the presentation, then click Analyze Email to show the full workflow.</p>
+            </div>
+            <div class="demo-button-grid">
+              {% for sample in demo_samples %}
+                <button class="demo-sample-button" type="button" data-sample-id="{{ sample.id }}">
+                  <span>Load {{ sample.label }}</span>
+                  <small>{{ sample.description }}</small>
+                </button>
+              {% endfor %}
+            </div>
+          </section>
 
           <form id="analysis-form" action="/analyze" method="post" enctype="multipart/form-data" novalidate>
             <div class="input-group">
@@ -98,54 +114,50 @@
 
             <p class="summary">{{ result.summary }}</p>
 
-            <section class="parsed-preview" aria-labelledby="parsed-preview-heading">
+            <dl class="report-stats" aria-label="Report summary metrics">
+              <div>
+                <dt>Indicators</dt>
+                <dd>{{ result.indicators | length }}</dd>
+              </div>
+              <div>
+                <dt>URLs</dt>
+                <dd>{{ result.parsed_email.urls | length }}</dd>
+              </div>
+              <div>
+                <dt>Attachments</dt>
+                <dd>{{ result.parsed_email.attachment_names | length }}</dd>
+              </div>
+              {% if result.llm_report %}
+                <div>
+                  <dt>Confidence</dt>
+                  <dd>{{ result.llm_report.confidence }}</dd>
+                </div>
+              {% endif %}
+            </dl>
+
+            <section class="report-section" aria-labelledby="summary-heading">
               <div class="section-title-row">
                 <div>
-                  <h3 id="parsed-preview-heading">Parsed Email Preview</h3>
-                  <p class="section-help">Review what the system extracted before reading the final analysis.</p>
+                  <h3 id="summary-heading">Analyst Report Summary</h3>
+                  <p class="section-help">Fast triage context for the message under review.</p>
                 </div>
-                <span class="preview-count">{{ result.parsed_email.urls | length }} URL{{ "" if result.parsed_email.urls | length == 1 else "s" }}</span>
+                {% if result.llm_report %}
+                  <span class="section-pill">{{ result.llm_report.verdict }}</span>
+                {% endif %}
               </div>
 
-              <dl class="preview-grid">
-                <dt>Subject</dt>
-                <dd>{{ result.parsed_email.subject or "N/A" }}</dd>
-                <dt>From</dt>
-                <dd>{{ result.parsed_email.from_header or "N/A" }}</dd>
-                <dt>To</dt>
-                <dd>{{ result.parsed_email.to_header or "N/A" }}</dd>
-                <dt>Reply-To</dt>
-                <dd>{{ result.parsed_email.reply_to or "N/A" }}</dd>
-                <dt>Date</dt>
-                <dd>{{ result.parsed_email.date or "N/A" }}</dd>
-              </dl>
+              <p class="summary-callout">{{ result.summary }}</p>
 
-              <div class="preview-lists">
-                <div>
-                  <h4>URLs Found</h4>
-                  {% if result.parsed_email.urls %}
-                    <ul class="compact-list">
-                      {% for url in result.parsed_email.urls %}
-                        <li>{{ url }}</li>
-                      {% endfor %}
-                    </ul>
-                  {% else %}
-                    <p class="muted">No URLs found.</p>
-                  {% endif %}
+              {% if result.llm_report %}
+                <div class="analysis-block">
+                  <h4>Explanation</h4>
+                  <ol class="analysis-list">
+                    {% for item in result.llm_report.analyst_explanation %}
+                      <li>{{ item }}</li>
+                    {% endfor %}
+                  </ol>
                 </div>
-                <div>
-                  <h4>Attachments</h4>
-                  {% if result.parsed_email.attachment_names %}
-                    <ul class="compact-list">
-                      {% for attachment in result.parsed_email.attachment_names %}
-                        <li>{{ attachment }}</li>
-                      {% endfor %}
-                    </ul>
-                  {% else %}
-                    <p class="muted">No attachments found.</p>
-                  {% endif %}
-                </div>
-              </div>
+              {% endif %}
 
               <details class="body-preview">
                 <summary>Message body preview</summary>
@@ -157,8 +169,14 @@
               </details>
             </section>
 
-            <section>
-              <h3>Indicators of Compromise</h3>
+            <section class="report-section" aria-labelledby="iocs-heading">
+              <div class="section-title-row">
+                <div>
+                  <h3 id="iocs-heading">Indicators of Compromise</h3>
+                  <p class="section-help">Evidence that contributed to the current risk assessment.</p>
+                </div>
+                <span class="section-pill">{{ result.indicators | length }} found</span>
+              </div>
               {% if result.indicators %}
                 <div class="table-wrap">
                   <table>
@@ -185,53 +203,121 @@
               {% endif %}
             </section>
 
+            <section class="report-section" aria-labelledby="artifacts-heading">
+              <div class="section-title-row">
+                <div>
+                  <h3 id="artifacts-heading">Extracted Evidence</h3>
+                  <p class="section-help">Headers, links, and attachments parsed from the submitted message.</p>
+                </div>
+              </div>
+
+              <div class="evidence-grid">
+                <section class="evidence-card" aria-labelledby="headers-heading">
+                  <div>
+                    <h4 id="headers-heading">Headers</h4>
+                    <p class="section-help">Identity and routing fields extracted from the email.</p>
+                  </div>
+                  <dl class="preview-grid">
+                    <dt>Subject</dt>
+                    <dd>{{ result.parsed_email.subject or "N/A" }}</dd>
+                    <dt>From</dt>
+                    <dd>{{ result.parsed_email.from_header or "N/A" }}</dd>
+                    <dt>To</dt>
+                    <dd>{{ result.parsed_email.to_header or "N/A" }}</dd>
+                    <dt>Reply-To</dt>
+                    <dd>{{ result.parsed_email.reply_to or "N/A" }}</dd>
+                    <dt>Date</dt>
+                    <dd>{{ result.parsed_email.date or "N/A" }}</dd>
+                  </dl>
+                </section>
+
+                <section class="evidence-card" aria-labelledby="urls-heading">
+                  <div class="evidence-card-heading">
+                    <div>
+                      <h4 id="urls-heading">URLs</h4>
+                      <p class="section-help">Links found in the body or HTML content.</p>
+                    </div>
+                    <span class="section-pill">{{ result.parsed_email.urls | length }}</span>
+                  </div>
+                  {% if result.parsed_email.urls %}
+                    <ul class="artifact-list">
+                      {% for url in result.parsed_email.urls %}
+                        <li>{{ url }}</li>
+                      {% endfor %}
+                    </ul>
+                  {% else %}
+                    <p class="muted">No URLs found.</p>
+                  {% endif %}
+                </section>
+
+                <section class="evidence-card" aria-labelledby="attachments-heading">
+                  <div class="evidence-card-heading">
+                    <div>
+                      <h4 id="attachments-heading">Attachments</h4>
+                      <p class="section-help">Attachment names visible in the message structure.</p>
+                    </div>
+                    <span class="section-pill">{{ result.parsed_email.attachment_names | length }}</span>
+                  </div>
+                  {% if result.parsed_email.attachment_names %}
+                    <ul class="artifact-list">
+                      {% for attachment in result.parsed_email.attachment_names %}
+                        <li>{{ attachment }}</li>
+                      {% endfor %}
+                    </ul>
+                  {% else %}
+                    <p class="muted">No attachments found.</p>
+                  {% endif %}
+                </section>
+
+                {% if result.llm_report and result.llm_report.iocs %}
+                  <section class="evidence-card" aria-labelledby="llm-iocs-heading">
+                    <div>
+                      <h4 id="llm-iocs-heading">LLM IoCs</h4>
+                      <p class="section-help">Observable artifacts named in the AI report.</p>
+                    </div>
+                    <ul class="artifact-list">
+                      {% for ioc in result.llm_report.iocs %}
+                        <li>{{ ioc }}</li>
+                      {% endfor %}
+                    </ul>
+                  </section>
+                {% endif %}
+              </div>
+            </section>
+
             {% if result.llm_report %}
-              <section class="llm-report">
-                <h3>Analyst Report</h3>
-                <dl class="report-grid">
-                  <dt>Verdict</dt>
-                  <dd>{{ result.llm_report.verdict }}</dd>
-                  <dt>Confidence</dt>
-                  <dd>{{ result.llm_report.confidence }}</dd>
-                  <dt>Provider</dt>
-                  <dd>{{ result.llm_report.provider }}</dd>
-                </dl>
+              <section class="report-section llm-report" aria-labelledby="recommendations-heading">
+                <div class="section-title-row report-title-row">
+                  <div>
+                    <h3 id="recommendations-heading">Recommendations</h3>
+                    <p class="section-help">Suggested next steps for triage, validation, and escalation.</p>
+                  </div>
+                  <dl class="report-badges" aria-label="LLM report metadata">
+                    <div>
+                      <dt>Provider</dt>
+                      <dd>{{ result.llm_report.provider }}</dd>
+                    </div>
+                    <div>
+                      <dt>Confidence</dt>
+                      <dd>{{ result.llm_report.confidence }}</dd>
+                    </div>
+                  </dl>
+                </div>
 
-                <h4>Explanation</h4>
-                <ul>
-                  {% for item in result.llm_report.analyst_explanation %}
-                    <li>{{ item }}</li>
-                  {% endfor %}
-                </ul>
-
-                <h4>Recommended Actions</h4>
-                <ul>
-                  {% for item in result.llm_report.recommended_actions %}
-                    <li>{{ item }}</li>
-                  {% endfor %}
-                </ul>
+                <div class="analysis-block first">
+                  <h4>Recommended Actions</h4>
+                  <ul class="action-list">
+                    {% for item in result.llm_report.recommended_actions %}
+                      <li>{{ item }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
 
                 {% if result.llm_report.error %}
                   <p class="alert alert--error" role="alert">{{ result.llm_report.error }}</p>
                 {% endif %}
               </section>
             {% endif %}
-
-            <section>
-              <h3>Extracted Artifacts</h3>
-              <dl class="report-grid">
-                <dt>Subject</dt>
-                <dd>{{ result.parsed_email.subject or "N/A" }}</dd>
-                <dt>From</dt>
-                <dd>{{ result.parsed_email.from_header or "N/A" }}</dd>
-                <dt>Reply-To</dt>
-                <dd>{{ result.parsed_email.reply_to or "N/A" }}</dd>
-                <dt>URLs</dt>
-                <dd>{{ result.parsed_email.urls | join(", ") if result.parsed_email.urls else "None" }}</dd>
-                <dt>Attachments</dt>
-                <dd>{{ result.parsed_email.attachment_names | join(", ") if result.parsed_email.attachment_names else "None" }}</dd>
-              </dl>
-            </section>
           {% else %}
             <div class="empty-state">
               <p class="panel-kicker">Report Workspace</p>

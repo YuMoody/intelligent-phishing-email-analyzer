@@ -22,6 +22,25 @@ def test_index_route_renders():
 
     assert response.status_code == 200
     assert "Phishing Email Analyzer" in response.text
+    assert "Payroll Credential Theft" in response.text
+
+
+def test_demo_sample_route_serves_whitelisted_sample():
+    client = TestClient(app)
+
+    response = client.get("/demo-samples/suspicious-invoice")
+
+    assert response.status_code == 200
+    assert "Invoice payment confirmation requested" in response.text
+
+
+def test_demo_sample_route_rejects_unknown_sample():
+    client = TestClient(app)
+
+    response = client.get("/demo-samples/not-a-sample")
+
+    assert response.status_code == 404
+    assert "Demo sample not found." in response.text
 
 
 def test_analyze_requires_email_input():

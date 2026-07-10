@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, Request, UploadFile
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -10,7 +10,25 @@ from app.email_parser import parse_email_content
 from app.settings import settings
 
 BASE_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = BASE_DIR.parent
 ALLOWED_EMAIL_FILE_SUFFIXES = {".eml"}
+DEMO_SAMPLES = {
+    "payroll-credential-theft": {
+        "label": "Payroll Credential Theft",
+        "description": "High-risk credential theft example",
+        "path": PROJECT_DIR / "samples" / "phishing_test.eml",
+    },
+    "suspicious-invoice": {
+        "label": "Suspicious Invoice",
+        "description": "Medium-risk business email example",
+        "path": PROJECT_DIR / "samples" / "business_invoice_medium.eml",
+    },
+    "safe-newsletter": {
+        "label": "Safe Newsletter",
+        "description": "Low-risk legitimate message example",
+        "path": PROJECT_DIR / "samples" / "newsletter_safe.eml",
+    },
+}
 
 app = FastAPI(
     title="Intelligent Phishing Email Analyzer",
@@ -34,8 +52,18 @@ async def index(request: Request):
             "result": None,
             "error": None,
             "success": None,
+            "demo_samples": _demo_sample_context(),
         },
     )
+
+
+@app.get("/demo-samples/{sample_id}", response_class=PlainTextResponse)
+async def demo_sample(sample_id: str):
+    sample = DEMO_SAMPLES.get(sample_id)
+    if not sample:
+        return PlainTextResponse("Demo sample not found.", status_code=404)
+
+    return PlainTextResponse(sample["path"].read_text(encoding="utf-8"))
 
 
 @app.post("/analyze", response_class=HTMLResponse)
@@ -56,6 +84,7 @@ async def analyze(
                     "result": None,
                     "error": "Invalid file type. Upload a .eml email file or paste raw email content.",
                     "success": None,
+                    "demo_samples": _demo_sample_context(),
                 },
                 status_code=400,
             )
@@ -70,6 +99,7 @@ async def analyze(
                     "result": None,
                     "error": "Uploaded file is too large for the configured upload limit.",
                     "success": None,
+                    "demo_samples": _demo_sample_context(),
                 },
                 status_code=413,
             )
@@ -83,6 +113,7 @@ async def analyze(
                     "result": None,
                     "error": "Paste email content or upload a .eml file before analyzing.",
                     "success": None,
+                    "demo_samples": _demo_sample_context(),
                 },
                 status_code=400,
             )
@@ -96,6 +127,7 @@ async def analyze(
                 "result": None,
                 "error": "Paste email content or upload a .eml file before analyzing.",
                 "success": None,
+                "demo_samples": _demo_sample_context(),
             },
             status_code=400,
         )
@@ -111,6 +143,7 @@ async def analyze(
             "result": result,
             "error": None,
             "success": "Analysis completed successfully. Review the report and recommended actions below.",
+            "demo_samples": _demo_sample_context(),
         },
     )
 
@@ -123,3 +156,14 @@ async def health():
         "openai_configured": bool(settings.openai_api_key),
         "openai_model": settings.openai_model,
     }
+
+
+def _demo_sample_context() -> list[dict[str, str]]:
+    return [
+        {
+            "id": sample_id,
+            "label": str(sample["label"]),
+            "description": str(sample["description"]),
+        }
+        for sample_id, sample in DEMO_SAMPLES.items()
+    ]

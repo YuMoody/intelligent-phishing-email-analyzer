@@ -309,7 +309,7 @@ Bivaina:
 
 - [x] Create report UI sections for score, risk level, summary, IoCs, and recommendations.
 - [x] Add loading, error, and no-result states for the analysis request.
-- [ ] Render sample LLM responses and verify that long explanations remain readable.
+- [x] Render sample LLM responses and verify that long explanations remain readable.
 - [ ] Review the report layout with Yuuki and Joseph.
 
 ### Week 6: Jul 6-Jul 10
@@ -497,4 +497,5 @@ Sample emails:
 ## Related Documentation
 
 - `TODO_MILESTONES.md`: Detailed semester backlog.
+- `docs/analysis_workflow.md`: Draft approach, analyst workflow, limitations, and planned improvements.
 - `docs/deployment.md`: Windows Server 2025 and Ubuntu 24.04 deployment outline.
