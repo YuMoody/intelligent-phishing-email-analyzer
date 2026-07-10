@@ -227,7 +227,7 @@ Yuuki:
 - [x] Finalize the project plan, timeline, weekly milestones, and success criteria.
 - [x] Assign ownership for backend, frontend, AI integration, testing, and documentation.
 - [x] Set up or organize the repository, shared folders, and task-tracking file.
-- [ ] Confirm the minimum viable demo workflow for the final presentation.
+- [x] Confirm the minimum viable demo workflow for the final presentation.
 
 Joseph:
 
@@ -248,9 +248,9 @@ Bivaina:
 Yuuki:
 
 - [x] Run a progress check on the first prototype and record blockers.
-- [ ] Review the workflow from email input to backend submission.
+- [x] Review the workflow from email input to backend submission.
 - [x] Confirm which sample emails will be used for early testing.
-- [ ] Update the weekly task tracker based on prototype progress.
+- [x] Update the weekly task tracker based on prototype progress.
 
 Joseph:
 
@@ -272,7 +272,7 @@ Yuuki:
 
 - [x] Review parser output against the project scope and required report fields.
 - [x] Confirm the sample test set includes legitimate and suspicious emails.
-- [ ] Check that invalid input handling is assigned and tracked.
+- [x] Check that invalid input handling is assigned and tracked.
 - [ ] Update documentation with any scope or schedule changes.
 
 Joseph:
@@ -293,7 +293,7 @@ Bivaina:
 
 Yuuki:
 
-- [ ] Lead review of the LLM prompt, scoring expectations, and explanation quality.
+- [x] Lead review of the LLM prompt, scoring expectations, and explanation quality.
 - [ ] Confirm the report fields match the project objectives and success criteria.
 - [ ] Start drafting documentation sections for approach, limitations, and workflow.
 - [ ] Track API access, cost, or fallback risks.
