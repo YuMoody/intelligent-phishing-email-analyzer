@@ -323,10 +323,10 @@ Yuuki:
 
 Joseph:
 
-- [ ] Refine backend response formatting and API error handling.
-- [ ] Improve prompt consistency with examples and required JSON fields.
-- [ ] Support frontend needs for risk labels, IoCs, URLs, and recommendations.
-- [ ] Verify the backend can run reliably for demo examples.
+- [x] Refine backend response formatting and API error handling.
+- [x] Improve prompt consistency with examples and required JSON fields.
+- [x] Support frontend needs for risk labels, IoCs, URLs, and recommendations.
+- [x] Verify the backend can run reliably for demo examples.
 
 Bivaina:
 

@@ -262,6 +262,33 @@ async def build_openai_report(
             "severity": heuristic_report["severity"],
             "indicators": heuristic_report["indicators"],
         },
+        "examples": [
+    {
+        "verdict": "likely_safe",
+        "confidence": "high",
+        "analyst_explanation": [
+            "No major phishing indicators were found."
+        ],
+        "recommended_actions": [
+            "Continue normal caution when interacting with email links."
+        ],
+        "iocs": [],
+    },
+    {
+        "verdict": "phishing",
+        "confidence": "high",
+        "analyst_explanation": [
+            "The message contains suspicious credential-theft indicators."
+        ],
+        "recommended_actions": [
+            "Do not click links or reply to the sender.",
+            "Escalate the email for analyst review."
+        ],
+        "iocs": [
+            "Suspicious URL detected."
+        ],
+    },
+],
     }
 
     # TODO Week 5: Replace this single prompt with tested few-shot examples from the project report.
