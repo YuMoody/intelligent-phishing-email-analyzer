@@ -294,8 +294,8 @@ Bivaina:
 Yuuki:
 
 - [x] Lead review of the LLM prompt, scoring expectations, and explanation quality.
-- [ ] Confirm the report fields match the project objectives and success criteria.
-- [ ] Start drafting documentation sections for approach, limitations, and workflow.
+- [x] Confirm the report fields match the project objectives and success criteria.
+- [x] Start drafting documentation sections for approach, limitations, and workflow.
 - [ ] Track API access, cost, or fallback risks.
 
 Joseph:
@@ -330,10 +330,10 @@ Joseph:
 
 Bivaina:
 
-- [ ] Polish the report interface and responsive layout.
-- [ ] Group summary, IoCs, URLs, headers, attachments, and recommendations clearly.
-- [ ] Improve validation messages and form usability.
-- [ ] Test the full workflow in the browser with sample emails.
+- [x] Polish the report interface and responsive layout.
+- [x] Group summary, IoCs, URLs, headers, attachments, and recommendations clearly.
+- [x] Improve validation messages and form usability.
+- [x] Test the full workflow in the browser with sample emails.
 
 ### Week 7: Jul 13-Jul 17
 
@@ -353,8 +353,8 @@ Joseph:
 
 Bivaina:
 
-- [ ] Test UI behavior across common screen sizes.
-- [ ] Fix report display, wrapping, validation, and usability issues found during testing.
+- [x] Test UI behavior across common screen sizes.
+- [x] Fix report display, wrapping, validation, and usability issues found during testing.
 - [ ] Capture screenshots for slides, backup demo, and documentation.
 - [ ] Prepare UI/report-design talking points for the presentation.
 
