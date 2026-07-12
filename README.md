@@ -442,16 +442,18 @@ To complete:
 
 Completed:
 
-- Reviewed the project direction and frontend/reporting responsibilities.
-- Prepared to contribute UI and documentation updates through GitHub.
+* Reviewed the project direction and frontend/reporting responsibilities.
+* Prepared to contribute UI and documentation updates through GitHub.
+* Improved the report layout and analyst workflow.
+* Added clearer indicator tables and severity labels.
+* Improved validation messages and overall form usability.
+* Tested the complete browser workflow using the provided demo email samples.
 
-To complete:
+Remaining:
 
-- Add self-description updates through a README pull request.
-- Improve the report layout and analyst workflow.
-- Add clearer indicator tables and severity labels.
-- Help add export options for final reports.
-- Help prepare screenshots and demo steps for the final presentation.
+* Help add export options for final reports.
+* Help prepare screenshots and demo steps for the final presentation.
+
 
 ## Collaboration Rules
 
