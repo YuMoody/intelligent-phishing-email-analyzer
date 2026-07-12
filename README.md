@@ -316,8 +316,8 @@ Bivaina:
 
 Yuuki:
 
-- [ ] Lead an end-to-end review from email input to generated report.
-- [ ] Assign missing documentation sections and due dates.
+- [x] Lead an end-to-end review from email input to generated report.
+- [x] Assign missing documentation sections and due dates.
 - [ ] Approve the final demo path and report layout.
 - [ ] Record remaining bugs and prioritize must-fix items.
 
