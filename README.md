@@ -346,10 +346,10 @@ Yuuki:
 
 Joseph:
 
-- [ ] Run backend and parser tests with legitimate and phishing examples.
-- [ ] Fix backend bugs found during testing.
-- [ ] Document backend setup, API usage, fallback behavior, and known limitations.
-- [ ] Prepare technical talking points for the presentation.
+- [x] Run backend and parser tests with legitimate and phishing examples.
+- [x] Fix backend bugs found during testing.
+- [x] Document backend setup, API usage, fallback behavior, and known limitations.
+- [x] Prepare technical talking points for the presentation.
 
 Bivaina:
 
