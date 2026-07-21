@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from email import policy
+from email.message import EmailMessage
 from email.parser import Parser
 from email.utils import parseaddr
 
@@ -34,7 +35,7 @@ class ParsedEmail:
 
 
 def parse_email_content(raw_email: str) -> ParsedEmail:
-    message = Parser(policy=policy.default).parsestr(raw_email)
+    message: EmailMessage = Parser(policy=policy.default).parsestr(raw_email)
 
     body_parts: list[str] = []
     attachment_names: list[str] = []
@@ -60,7 +61,7 @@ def parse_email_content(raw_email: str) -> ParsedEmail:
 
     # TODO Week 3: Preserve separate plain-text and HTML bodies for better link-text mismatch checks.
     # TODO Week 3: Add robust parsing for malformed messages collected from real inbox exports.
-    parsed = ParsedEmail(
+    return ParsedEmail(
         subject=message.get("subject", ""),
         from_header=message.get("from", ""),
         reply_to=message.get("reply-to", ""),
@@ -74,10 +75,8 @@ def parse_email_content(raw_email: str) -> ParsedEmail:
         attachment_names=attachment_names,
     )
 
-    return parsed
 
-
-def _safe_content(part) -> str:
+def _safe_content(part: EmailMessage) -> str:
     try:
         return part.get_content()
     except Exception:
